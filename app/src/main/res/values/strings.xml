@@ -8,6 +8,7 @@
     <string name="product_category">Ürün Kategorisi</string>
     <string name="product_price">Ürün Fiyatı</string>
     <string name="button_add_product">Ürünü Ekle</string>
+    <string name="button_add_img">Ürünün Resmini Ekleyin</string>
     <string-array name="category">
         <item>Kozmetik</item>
         <item>Moda</item>
