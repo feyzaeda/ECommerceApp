@@ -1,25 +1,27 @@
 package com.e_commerceapp.android
 
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import androidx.core.app.ActivityCompat
+import android.widget.Toast
+import androidx.fragment.app.Fragment
 import com.e_commerceapp.android.databinding.FragmentAddProductBinding
-import java.util.*
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 
 class AddProductFragment : Fragment() {
 
     private var _binding: FragmentAddProductBinding? = null
     private val binding get() = _binding!!
     private lateinit var imgUri: Uri
+    private lateinit var productCategory: String
+    private lateinit var productName: String
+    private lateinit var productExplanetion: String
+    private lateinit var productPrice: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,37 +39,61 @@ class AddProductFragment : Fragment() {
     private fun initUi() {
         binding.apply {
             val category = resources.getStringArray(R.array.category)
-            val arrayAdapter = ArrayAdapter(requireContext(),R.layout.item_dropdown_category,category)
-            binding.autoCompleteCategory.setAdapter(arrayAdapter)
-            if (ActivityCompat.checkSelfPermission(binding.root.context, android.Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(android.Manifest.permission.CAMERA),111)
+            val arrayAdapter =
+                ArrayAdapter(requireContext(), R.layout.item_dropdown_category, category)
+            autoCompleteCategory.setAdapter(arrayAdapter)
+
+            autoCompleteCategory.setOnItemClickListener { parent, view, position, id ->
+                productCategory = parent.getItemAtPosition(position).toString()
             }
 
-            binding.btnAddProductImg.setOnClickListener {
+            var database = FirebaseDatabase.getInstance().reference
+            var storage = FirebaseStorage.getInstance().reference.child("product")
+
+            btnAddProductImg.setOnClickListener {
                 val intent = Intent()
                 intent.type = "image/"
                 intent.action = Intent.ACTION_GET_CONTENT
-                startActivityForResult(intent,100)
+                startActivityForResult(intent, 100)
             }
+
+            btnAddProduct.setOnClickListener {
+                var productId = database.push().key.toString()
+                productName = txtProductName.text.toString()
+                productExplanetion = txtProductExplanation.text.toString()
+                productPrice = txtProductPrice.text.toString()
+                val product = Product(
+                    productName,
+                    productExplanetion,
+                    productCategory,
+                    productPrice,
+                    productId,
+                    imgUri.toString()
+                )
+                database.child(productCategory).child(productId)
+                    .setValue(product)
+                storage.putFile(imgUri).addOnCompleteListener {
+                    Toast.makeText(
+                        binding.root.context,
+                        "resim yükleme başarılı",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+
+            }
+
+
         }
     }
 
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == 100){
+        if (requestCode == 100) {
             imgUri = data?.data!!
             binding.imgProduct.setImageURI(imgUri)
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (requestCode == 111 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-            binding.btnAddProductImg.isEnabled = true
-        }
-    }
+
 }
