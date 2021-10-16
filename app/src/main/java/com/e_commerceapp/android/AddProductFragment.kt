@@ -19,6 +19,7 @@ class AddProductFragment : Fragment() {
 
     private var _binding: FragmentAddProductBinding? = null
     private val binding get() = _binding!!
+    private lateinit var imgUri: Uri
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,17 +44,19 @@ class AddProductFragment : Fragment() {
             }
 
             binding.btnAddProductImg.setOnClickListener {
-                var intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(intent,101)
+                val intent = Intent()
+                intent.type = "image/"
+                intent.action = Intent.ACTION_GET_CONTENT
+                startActivityForResult(intent,100)
             }
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode==101){
-            var picture = data?.getParcelableExtra<Bitmap>("data")
-            binding.imgProduct.setImageBitmap(picture)
+        if (requestCode == 100){
+            imgUri = data?.data!!
+            binding.imgProduct.setImageURI(imgUri)
         }
     }
 
