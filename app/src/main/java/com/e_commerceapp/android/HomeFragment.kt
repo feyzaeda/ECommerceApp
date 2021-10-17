@@ -2,14 +2,17 @@ package com.e_commerceapp.android
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.e_commerceapp.android.databinding.FragmentHomeBinding
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), HomeAdapter.onItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -41,10 +44,10 @@ class HomeFragment : Fragment() {
                 R.drawable.supermarket,
                 R.drawable.kirtasiye
             )
-            categoryName = arrayOf("Kozmetik", "Moda", "Eletronik", "Süpermarket", "Kırtasiye")
+            categoryName = resources.getStringArray(R.array.category).toList().toTypedArray()
 
-            binding.rcyViewHome.layoutManager = LinearLayoutManager(binding.root.context)
-            binding.rcyViewHome.setHasFixedSize(true)
+            rcyViewHome.layoutManager = GridLayoutManager(binding.root.context,2)
+            rcyViewHome.setHasFixedSize(true)
             categoryList = arrayListOf<HomeCategory>()
             getData()
         }
@@ -55,8 +58,14 @@ class HomeFragment : Fragment() {
             val category = HomeCategory(imageId[i],categoryName[i])
             categoryList.add(category)
         }
-        binding.rcyViewHome.adapter = HomeAdapter(categoryList)
+        var adapter = HomeAdapter(categoryList,this)
+        binding.rcyViewHome.adapter = adapter
+
+
     }
 
+    override fun onItemClick(categoryName: String) {
+        Toast.makeText(binding.root.context,categoryName,Toast.LENGTH_LONG).show()
+    }
 
 }
