@@ -7,10 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.e_commerceapp.android.databinding.FragmentHomeBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class HomeFragment : Fragment(), HomeAdapter.onItemClickListener {
 
@@ -66,6 +69,10 @@ class HomeFragment : Fragment(), HomeAdapter.onItemClickListener {
 
     override fun onItemClick(categoryName: String) {
         Toast.makeText(binding.root.context,categoryName,Toast.LENGTH_LONG).show()
+        //val sendData = categoryName.toString()
+        val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(categoryName)
+        //Navigation.findNavController(bottomNavigationView).navigate(action)
+        findNavController().navigate(action)
     }
 
 }
