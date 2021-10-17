@@ -9,6 +9,8 @@
     <string name="product_price">Ürün Fiyatı</string>
     <string name="button_add_product">Ürünü Ekle</string>
     <string name="button_add_img">Ürünün Resmini Ekleyin</string>
+    <string name="button_delete">Ürünü Sil</string>
+    <string name="button_update">Ürünü güncelle</string>
     <string-array name="category">
         <item>Kozmetik</item>
         <item>Moda</item>
