@@ -16,7 +16,7 @@ class HomeAdapter(private val categoryList: ArrayList<HomeCategory>, private val
     }
 
 
-    inner class HomeViewHolder(private val itemHomeBinding: ItemHomeBinding) : //listener: onItemClickListener
+    inner class HomeViewHolder(private val itemHomeBinding: ItemHomeBinding) :
         RecyclerView.ViewHolder(itemHomeBinding.root) {
 
         fun bind(position: Int) {
