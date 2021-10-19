@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.e_commerceapp.android.databinding.FragmentAddProductBinding
 import com.google.firebase.database.FirebaseDatabase
@@ -22,8 +21,6 @@ class AddProductFragment : Fragment() {
     private lateinit var productName: String
     private lateinit var productExplanetion: String
     private lateinit var productPrice: String
-    private lateinit var firebaseDatabase: FirebaseDatabase
-    private lateinit var firebaseStorage: FirebaseStorage
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,9 +46,6 @@ class AddProductFragment : Fragment() {
                 productCategory = parent.getItemAtPosition(position).toString()
             }
 
-
-
-
             btnAddProductImg.setOnClickListener {
                 val intent = Intent()
                 intent.type = "image/"
@@ -60,7 +54,7 @@ class AddProductFragment : Fragment() {
             }
 
             btnAddProduct.setOnClickListener {
-                var database = FirebaseDatabase.getInstance().reference
+                var database = FirebaseDatabase.getInstance().getReference("Product")
                 var productId = database.push().key.toString()
                 productName = txtProductName.text.toString()
                 productExplanetion = txtProductExplanation.text.toString()
@@ -77,11 +71,6 @@ class AddProductFragment : Fragment() {
                     .setValue(product)
                 var storage = FirebaseStorage.getInstance().getReference("product").child(productId)
                 storage.putFile(imgUri).addOnCompleteListener {
-                    /*Toast.makeText(
-                        binding.root.context,
-                        "resim yükleme başarılı",
-                        Toast.LENGTH_LONG
-                    ).show()*/
                 }
 
             }
