@@ -9,7 +9,7 @@
         android:id="@+id/homeFragment"
         android:name="com.e_commerceapp.android.HomeFragment"
         android:label="fragment_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <argument
             android:name="productCategory"
             app:argType="string" />
@@ -26,7 +26,7 @@
         android:id="@+id/productFragment"
         android:name="com.e_commerceapp.android.ProductFragment"
         android:label="fragment_product"
-        tools:layout="@layout/fragment_product" >
+        tools:layout="@layout/fragment_product">
         <argument
             android:name="productCategory"
             app:argType="string" />
@@ -38,5 +38,12 @@
         android:id="@+id/productDetailFragment"
         android:name="com.e_commerceapp.android.ProductDetailFragment"
         android:label="fragment_product_detail"
-        tools:layout="@layout/fragment_product_detail" />
+        tools:layout="@layout/fragment_product_detail">
+        <argument
+            android:name="productId"
+            app:argType="string" />
+        <argument
+            android:name="productCategory"
+            app:argType="string" />
+    </fragment>
 </navigation>

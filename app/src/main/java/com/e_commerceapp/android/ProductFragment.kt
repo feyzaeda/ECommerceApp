@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.e_commerceapp.android.databinding.FragmentProductBinding
@@ -54,11 +55,6 @@ class ProductFragment : Fragment() {
                         for (productSnapShot in snapshot.children) {
                             val product = productSnapShot.getValue(Product::class.java)
                             productList.add(product!!)
-                            Toast.makeText(
-                                binding.root.context,
-                                "başarıyla data geldi",
-                                Toast.LENGTH_LONG
-                            ).show()
                             val storage = FirebaseStorage.getInstance().getReference("product")
                                 .child(product.productId.toString())
                             val localFile = File.createTempFile("tempFile", "jpg")
@@ -78,11 +74,10 @@ class ProductFragment : Fragment() {
                 }
 
                 override fun onItemClick(categoryName: String?, productId: String?) {
-                    Toast.makeText(
-                        binding.root.context,
-                        categoryName + productId,
-                        Toast.LENGTH_LONG
-                    ).show()
+                    if (productId.isNullOrEmpty().not() && categoryName.isNullOrEmpty().not()){
+                        val action = ProductFragmentDirections.actionProductFragmentToProductDetailFragment(productId!!,categoryName!!)
+                        findNavController().navigate(action)
+                    }
                 }
 
             })
