@@ -41,7 +41,6 @@ class HomeAdapter(private val categoryList: ArrayList<HomeCategory>, private val
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         val itemBinding =
             ItemHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        //return HomeViewHolder(itemBinding,mListener)
         return HomeViewHolder(itemBinding)
     }
 

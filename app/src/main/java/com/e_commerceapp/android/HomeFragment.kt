@@ -19,7 +19,6 @@ class HomeFragment : Fragment(), HomeAdapter.onItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
-    private lateinit var homeRecyclerView: RecyclerView
     private lateinit var categoryList : ArrayList<HomeCategory>
     lateinit var imageId: Array<Int>
     lateinit var categoryName: Array<String>
@@ -69,9 +68,7 @@ class HomeFragment : Fragment(), HomeAdapter.onItemClickListener {
 
     override fun onItemClick(categoryName: String) {
         Toast.makeText(binding.root.context,categoryName,Toast.LENGTH_LONG).show()
-        //val sendData = categoryName.toString()
         val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(categoryName)
-        //Navigation.findNavController(bottomNavigationView).navigate(action)
         findNavController().navigate(action)
     }
 
