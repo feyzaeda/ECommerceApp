@@ -1,5 +1,6 @@
 package com.e_commerceapp.android
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -12,6 +13,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.storage.FirebaseStorage
+import kotlinx.android.synthetic.main.fragment_add_product.*
+import java.io.File
 
 class ProductDetailFragment : Fragment() {
 
@@ -40,7 +44,7 @@ class ProductDetailFragment : Fragment() {
 
             var firebase =
                 FirebaseDatabase.getInstance().getReference("Product").child(getProductCategory).child(getProductId)
-
+            var firebaseStorage = FirebaseStorage.getInstance().getReference("product").child(getProductId)
             firebase.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
@@ -53,6 +57,12 @@ class ProductDetailFragment : Fragment() {
                         tvProductExplanation.text = productExplanation.toString()
                         tvProductName.text = productName.toString()
                         tvProductPrice.text = productPrice.toString()
+
+                        val localFile = File.createTempFile("tempFile", "jpg")
+                        firebaseStorage.getFile(localFile).addOnSuccessListener {
+                            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
+                            imgProduct.setImageBitmap(bitmap)
+                        }
                     }
 
                 }
