@@ -1,14 +1,17 @@
 package com.e_commerceapp.android
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.e_commerceapp.android.databinding.FragmentProductBinding
 import com.e_commerceapp.android.databinding.FragmentProductDetailBinding
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class ProductDetailFragment : Fragment() {
 
@@ -32,9 +35,33 @@ class ProductDetailFragment : Fragment() {
     private fun initUi() {
         binding.apply {
             val args: ProductDetailFragmentArgs by navArgs()
-            val productCategory = args.productCategory
-            val productId = args.productId
-            Toast.makeText(binding.root.context,productCategory+productId,Toast.LENGTH_LONG).show()
+            val getProductCategory = args.productCategory
+            val getProductId = args.productId
+
+            var firebase =
+                FirebaseDatabase.getInstance().getReference("Product").child(getProductCategory).child(getProductId)
+
+            firebase.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if (snapshot.exists()) {
+                        val productCategory = snapshot.child("productCategory").value
+                        val productExplanation = snapshot.child("productExplanation").value
+                        val productName = snapshot.child("productName").value
+                        val productPrice = snapshot.child("productPrice").value
+
+                        tvProductCategory.text = productCategory.toString()
+                        tvProductExplanation.text = productExplanation.toString()
+                        tvProductName.text = productName.toString()
+                        tvProductPrice.text = productPrice.toString()
+                    }
+
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+
+            })
         }
     }
 
