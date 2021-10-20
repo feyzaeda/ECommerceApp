@@ -2,12 +2,17 @@ package com.e_commerceapp.android
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
-import com.e_commerceapp.android.databinding.ItemHomeBinding
 import com.e_commerceapp.android.databinding.ItemProductBinding
+import com.google.firebase.database.ValueEventListener
 
-class ProductAdapter(private val productList: ArrayList<Product>):
+class ProductAdapter(private val productList: ArrayList<Product>, private val listener: ProductAdapter.onItemClickListener):
     RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
+
+    interface onItemClickListener{
+        fun onItemClick(categoryName: String?, productId: String?)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val itemBinding =
@@ -30,6 +35,13 @@ class ProductAdapter(private val productList: ArrayList<Product>):
                     tvProductName.text = item.productName
                     tvProductPrice.text = item.productPrice
                 }
+            }
+        }
+
+        init {
+            itemView.setOnClickListener {
+                listener.onItemClick(productList[adapterPosition].productCategory, productList[adapterPosition].productId)
+
             }
         }
 
