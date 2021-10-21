@@ -55,6 +55,9 @@ class ProductFragment : Fragment() {
                         for (productSnapShot in snapshot.children) {
                             val product = productSnapShot.getValue(Product::class.java)
                             productList.add(product!!)
+                            productList.sortByDescending {
+                                it.productName
+                            }
                             val storage = FirebaseStorage.getInstance().getReference("product")
                                 .child(product.productId.toString())
                             val localFile = File.createTempFile("tempFile", "jpg")
@@ -65,7 +68,6 @@ class ProductFragment : Fragment() {
                         }
                         var adapter = ProductAdapter(productList, this)
                         rcyProduct.adapter = adapter
-
                     }
                 }
 
