@@ -6,7 +6,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.e_commerceapp.android.databinding.FragmentProductDetailBinding
 import com.google.firebase.database.DataSnapshot
@@ -72,6 +74,15 @@ class ProductDetailFragment : Fragment() {
                 }
 
             })
+            btnUpdateProduct.setOnClickListener {
+                val action = ProductDetailFragmentDirections.actionProductDetailFragmentToUpdateProductFragment(getProductId,getProductCategory)
+                findNavController().navigate(action)
+            }
+            btnDeleteProduct.setOnClickListener {
+                firebase.removeValue().addOnSuccessListener {
+                    Toast.makeText(binding.root.context,"ürün silindi",Toast.LENGTH_LONG).show()
+                }
+            }
         }
     }
 

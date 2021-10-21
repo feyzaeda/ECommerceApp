@@ -45,5 +45,20 @@
         <argument
             android:name="productCategory"
             app:argType="string" />
+        <action
+            android:id="@+id/action_productDetailFragment_to_updateProductFragment"
+            app:destination="@id/updateProductFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/updateProductFragment"
+        android:name="com.e_commerceapp.android.UpdateProductFragment"
+        android:label="fragment_update_product"
+        tools:layout="@layout/fragment_update_product" >
+        <argument
+            android:name="productId"
+            app:argType="string" />
+        <argument
+            android:name="productCategory"
+            app:argType="string" />
     </fragment>
 </navigation>
