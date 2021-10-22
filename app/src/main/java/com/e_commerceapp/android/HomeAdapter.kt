@@ -1,20 +1,32 @@
 package com.e_commerceapp.android
 
 import android.view.LayoutInflater
-import android.view.OnReceiveContentListener
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
 import com.e_commerceapp.android.databinding.ItemHomeBinding
 
-class HomeAdapter(private val categoryList: ArrayList<HomeCategory>, private val listener: onItemClickListener) :
-    RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
+class HomeAdapter(
+    private val categoryList: ArrayList<HomeCategory>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<HomeAdapter.HomeViewHolder>() {
 
-
-    interface onItemClickListener{
+    interface OnItemClickListener {
         fun onItemClick(categoryName: String)
     }
 
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+        val itemBinding =
+            ItemHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return HomeViewHolder(itemBinding)
+    }
+
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
+        holder.bind(position)
+    }
+
+    override fun getItemCount(): Int {
+        return categoryList.size
+    }
 
     inner class HomeViewHolder(private val itemHomeBinding: ItemHomeBinding) :
         RecyclerView.ViewHolder(itemHomeBinding.root) {
@@ -32,24 +44,7 @@ class HomeAdapter(private val categoryList: ArrayList<HomeCategory>, private val
         init {
             itemView.setOnClickListener {
                 listener.onItemClick(categoryList[adapterPosition].categoryName)
-
             }
         }
-
     }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        val itemBinding =
-            ItemHomeBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return HomeViewHolder(itemBinding)
-    }
-
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.bind(position)
-    }
-
-    override fun getItemCount(): Int {
-        return categoryList.size
-    }
-
 }

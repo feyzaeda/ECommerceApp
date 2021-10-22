@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.e_commerceapp.android.databinding.FragmentHomeBinding
 
-class HomeFragment : Fragment(), HomeAdapter.onItemClickListener {
+class HomeFragment : Fragment(), HomeAdapter.OnItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
