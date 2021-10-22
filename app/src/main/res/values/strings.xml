@@ -11,6 +11,7 @@
     <string name="button_add_img">Ürünün Resmini Ekleyin</string>
     <string name="button_delete">Ürünü Sil</string>
     <string name="button_update">Ürünü güncelle</string>
+    <string name="empty_fields_error">Lütfen tüm alanları doldurunuz.</string>
     <string-array name="category">
         <item>Kozmetik</item>
         <item>Moda</item>
