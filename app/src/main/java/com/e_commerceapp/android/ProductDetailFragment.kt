@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
@@ -78,7 +79,8 @@ class ProductDetailFragment : Fragment() {
             }
             btnDeleteProduct.setOnClickListener {
                 firebase.removeValue().addOnSuccessListener {
-                    Toast.makeText(binding.root.context,"ürün silindi",Toast.LENGTH_LONG).show()
+                    Navigation.findNavController(binding.root)
+                        .navigate(R.id.action_productDetailFragment_to_homeFragment)
                 }
             }
         }

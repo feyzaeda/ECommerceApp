@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.e_commerceapp.android.databinding.FragmentUpdateProductBinding
@@ -123,14 +124,21 @@ class UpdateProductFragment : Fragment() {
         if (imgUriUpdate != null) {
             storage.putFile(imgUriUpdate!!).addOnSuccessListener {
                 storage.downloadUrl.addOnSuccessListener {
-                    database.child(currentProduct!!.productCategory!!)
-                        .child(currentProduct!!.productId!!).setValue(currentProduct)
+                    updateDatabase()
                 }
             }
         } else {
-            database.child(currentProduct!!.productCategory!!).child(currentProduct!!.productId!!)
-                .setValue(currentProduct)
+            updateDatabase()
         }
+    }
+
+    fun updateDatabase() {
+        database.child(currentProduct!!.productCategory!!)
+            .child(currentProduct!!.productId!!).setValue(currentProduct).addOnSuccessListener {
+                Navigation.findNavController(binding.root)
+                    .navigate(R.id.action_updateProductFragment_to_homeFragment)
+            }
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
