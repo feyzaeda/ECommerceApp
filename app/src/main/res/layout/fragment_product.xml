@@ -17,6 +17,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         tools:listitem="@layout/item_product"
         android:foregroundGravity="center"
+        tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        tools:spanCount="2"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

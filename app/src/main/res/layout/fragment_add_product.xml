@@ -15,7 +15,7 @@
             android:layout_height="match_parent">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/imgProduct"
+                android:id="@+id/imgAddProduct"
                 android:layout_width="0dp"
                 android:layout_height="200dp"
                 android:layout_margin="20dp"
@@ -28,7 +28,7 @@
                 android:id="@+id/btnAddProductImg"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/imgProduct"
+                app:layout_constraintTop_toBottomOf="@id/imgAddProduct"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_margin="10dp"
@@ -69,7 +69,8 @@
                     android:id="@+id/txtProductExplanation"
                     android:layout_width="match_parent"
                     android:layout_height="120dp"
-                    android:maxLines="10" />
+                    android:maxLines="10"
+                    />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -107,7 +108,8 @@
                     android:id="@+id/txtProductPrice"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 

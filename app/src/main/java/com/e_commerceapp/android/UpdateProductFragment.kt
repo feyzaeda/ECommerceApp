@@ -3,27 +3,24 @@ package com.e_commerceapp.android
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.e_commerceapp.android.databinding.FragmentAddProductBinding
+import com.bumptech.glide.Glide
 import com.e_commerceapp.android.databinding.FragmentUpdateProductBinding
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
 
 class UpdateProductFragment : Fragment() {
 
     private var _binding: FragmentUpdateProductBinding? = null
     private val binding get() = _binding!!
-    private lateinit var imgUriUpdate: Uri
-    private lateinit var productCategory: String
-    private lateinit var productName: String
-    private lateinit var productExplanetion: String
-    private lateinit var productPrice: String
+    private var imgUriUpdate: Uri? = null
+    private var currentProduct: Product? = null
+    private lateinit var database: DatabaseReference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,16 +40,52 @@ class UpdateProductFragment : Fragment() {
             val args: UpdateProductFragmentArgs by navArgs()
             val getProductCategory = args.productCategory
             val getProductId = args.productId
-
+            database = FirebaseDatabase.getInstance().getReference("Product")
             val category = resources.getStringArray(R.array.category)
             val arrayAdapter =
                 ArrayAdapter(requireContext(), R.layout.item_dropdown_category, category)
             autoCompleteCategoryUpdate.setAdapter(arrayAdapter)
 
             autoCompleteCategoryUpdate.setOnItemClickListener { parent, view, position, id ->
-                productCategory = parent.getItemAtPosition(position).toString()
+                currentProduct?.let {
+                    it.productCategory = parent.getItemAtPosition(position).toString()
+                }
             }
+            database.child(getProductCategory).child(getProductId)
+                .addValueEventListener(object : ValueEventListener {
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        if (currentProduct == null) {
 
+
+                            val productExplanation =
+                                snapshot.child("productExplanation").value.toString()
+                            val productName = snapshot.child("productName").value.toString()
+                            val productPrice = snapshot.child("productPrice").value.toString()
+                            val imgUri = snapshot.child("productImg").value.toString()
+                            val productCategory = snapshot.child("productCategory").value.toString()
+
+
+                            currentProduct = Product(
+                                productName,
+                                productExplanation,
+                                productCategory,
+                                productPrice,
+                                getProductId,
+                                imgUri
+                            )
+
+                            txtProductExplanationUpdate.setText(productExplanation)
+                            txtProductNameUpdate.setText(productName)
+                            txtProductPriceUpdate.setText(productPrice)
+                            Glide.with(binding.root.context).load(imgUri).into(imgProductUpdate)
+                        }
+                    }
+
+                    override fun onCancelled(error: DatabaseError) {
+                        TODO("Not yet implemented")
+                    }
+
+                })
 
             btnAddProductImgUpdate.setOnClickListener {
                 val intent = Intent()
@@ -62,23 +95,15 @@ class UpdateProductFragment : Fragment() {
             }
 
             btnUpdate.setOnClickListener {
-                var database = FirebaseDatabase.getInstance().getReference("Product")
-                //var productId = database.push().key.toString()
-                productName = txtProductNameUpdate.text.toString()
-                productExplanetion = txtProductExplanationUpdate.text.toString()
-                productPrice = txtProductPriceUpdate.text.toString()
-                val product = Product(
-                    productName,
-                    productExplanetion,
-                    productCategory,
-                    productPrice,
-                    getProductId,
-                    imgUriUpdate.toString()
-                )
-                database.child(getProductCategory).child(getProductId)
-                    .setValue(product)
-                var storage = FirebaseStorage.getInstance().getReference("product").child(getProductId)
-                storage.putFile(imgUriUpdate).addOnCompleteListener {
+                if (currentProduct?.productCategory.equals(getProductCategory)) {
+                    updateProduct()
+                } else {
+                    database.child(getProductCategory).child(getProductId).removeValue()
+                        .addOnSuccessListener {
+                            updateProduct()
+                        }
+
+
                 }
 
             }
@@ -86,6 +111,26 @@ class UpdateProductFragment : Fragment() {
 
         }
 
+    }
+
+    fun updateProduct() {
+        val storage =
+            FirebaseStorage.getInstance().getReference("Product")
+                .child(currentProduct!!.productCategory!!).child(currentProduct!!.productId!!)
+        currentProduct!!.productName = binding.txtProductNameUpdate.text.toString()
+        currentProduct!!.productExplanation = binding.txtProductExplanationUpdate.text.toString()
+        currentProduct!!.productPrice = binding.txtProductPriceUpdate.text.toString()
+        if (imgUriUpdate != null) {
+            storage.putFile(imgUriUpdate!!).addOnSuccessListener {
+                storage.downloadUrl.addOnSuccessListener {
+                    database.child(currentProduct!!.productCategory!!)
+                        .child(currentProduct!!.productId!!).setValue(currentProduct)
+                }
+            }
+        } else {
+            database.child(currentProduct!!.productCategory!!).child(currentProduct!!.productId!!)
+                .setValue(currentProduct)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

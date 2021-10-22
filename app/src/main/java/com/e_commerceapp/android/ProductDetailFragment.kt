@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
 import com.e_commerceapp.android.databinding.FragmentProductDetailBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -54,17 +55,14 @@ class ProductDetailFragment : Fragment() {
                         val productExplanation = snapshot.child("productExplanation").value
                         val productName = snapshot.child("productName").value
                         val productPrice = snapshot.child("productPrice").value
+                        val productImg = snapshot.child("productImg").value
 
                         tvProductCategory.text = productCategory.toString()
                         tvProductExplanation.text = productExplanation.toString()
                         tvProductName.text = productName.toString()
                         tvProductPrice.text = productPrice.toString()
 
-                        val localFile = File.createTempFile("tempFile", "jpg")
-                        firebaseStorage.getFile(localFile).addOnSuccessListener {
-                            val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
-                            imgProduct.setImageBitmap(bitmap)
-                        }
+                        Glide.with(binding.root.context).load(productImg).into(imgProduct)
                     }
 
                 }

@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.fragment_add_product.*
+import kotlinx.android.synthetic.main.item_product.*
 import java.io.File
 
 class ProductFragment : Fragment() {
@@ -52,19 +53,13 @@ class ProductFragment : Fragment() {
                 ProductAdapter.onItemClickListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     if (snapshot.exists()) {
+                        productList.clear()
                         for (productSnapShot in snapshot.children) {
                             val product = productSnapShot.getValue(Product::class.java)
                             productList.add(product!!)
-                            productList.sortByDescending {
-                                it.productName
-                            }
-                            val storage = FirebaseStorage.getInstance().getReference("product")
-                                .child(product.productId.toString())
-                            val localFile = File.createTempFile("tempFile", "jpg")
-                            storage.getFile(localFile).addOnSuccessListener {
-                                val bitmap = BitmapFactory.decodeFile(localFile.absolutePath)
-                                imgProduct.setImageBitmap(bitmap)
-                            }
+                        }
+                        productList.sortByDescending {
+                            it.productName
                         }
                         var adapter = ProductAdapter(productList, this)
                         rcyProduct.adapter = adapter

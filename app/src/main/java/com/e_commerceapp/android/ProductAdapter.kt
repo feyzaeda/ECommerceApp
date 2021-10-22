@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.AdapterView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.e_commerceapp.android.databinding.ItemProductBinding
 import com.google.firebase.database.ValueEventListener
 
@@ -34,6 +35,7 @@ class ProductAdapter(private val productList: ArrayList<Product>, private val li
                 itemProductBinding.apply {
                     tvProductName.text = item.productName
                     tvProductPrice.text = item.productPrice
+                    Glide.with(itemProductBinding.root.context).load(item.productImg).into(imgProductItem)
                 }
             }
         }

@@ -67,7 +67,6 @@ class HomeFragment : Fragment(), HomeAdapter.onItemClickListener {
     }
 
     override fun onItemClick(categoryName: String) {
-        Toast.makeText(binding.root.context,categoryName,Toast.LENGTH_LONG).show()
         val action = HomeFragmentDirections.actionHomeFragmentToProductFragment(categoryName)
         findNavController().navigate(action)
     }
