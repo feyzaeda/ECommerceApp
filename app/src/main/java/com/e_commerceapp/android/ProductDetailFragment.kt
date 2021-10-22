@@ -93,4 +93,9 @@ class ProductDetailFragment : Fragment() {
                 .navigate(R.id.action_productDetailFragment_to_homeFragment)
         }
     }
+
+    override fun onDestroyView() {
+        _binding = null
+        super.onDestroyView()
+    }
 }
