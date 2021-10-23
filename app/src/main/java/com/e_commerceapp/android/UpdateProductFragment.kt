@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
@@ -114,19 +115,29 @@ class UpdateProductFragment : Fragment() {
     }
 
     private fun updateProduct() {
-        val storage = FirebaseStorage.getInstance().getReference(PRODUCT_DB)
-            .child(currentProduct!!.productCategory!!).child(currentProduct!!.productId!!)
-        currentProduct!!.productName = binding.txtProductNameUpdate.text.toString()
-        currentProduct!!.productExplanation = binding.txtProductExplanationUpdate.text.toString()
-        currentProduct!!.productPrice = binding.txtProductPriceUpdate.text.toString()
-        if (imgUriUpdate != null) {
-            storage.putFile(imgUriUpdate!!).addOnSuccessListener {
-                storage.downloadUrl.addOnSuccessListener {
-                    updateDatabase()
+        val productName = binding.txtProductNameUpdate.text.toString()
+        val productExplanation = binding.txtProductExplanationUpdate.text.toString()
+        val productPrice = binding.txtProductPriceUpdate.text.toString()
+        if (productName.isEmpty().not() &&
+            productExplanation.isEmpty().not() &&
+            productPrice.isEmpty().not()
+        ) {
+            currentProduct!!.productName = productName
+            currentProduct!!.productExplanation = productExplanation
+            currentProduct!!.productPrice = productPrice
+            if (imgUriUpdate != null) {
+                val storage = FirebaseStorage.getInstance().getReference(PRODUCT_DB)
+                    .child(currentProduct!!.productCategory!!).child(currentProduct!!.productId!!)
+                storage.putFile(imgUriUpdate!!).addOnSuccessListener {
+                    storage.downloadUrl.addOnSuccessListener {
+                        updateDatabase()
+                    }
                 }
+            } else {
+                updateDatabase()
             }
         } else {
-            updateDatabase()
+            Toast.makeText(requireContext(), R.string.empty_fields_error, Toast.LENGTH_LONG).show()
         }
     }
 
