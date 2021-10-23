@@ -6,45 +6,42 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".UpdateProductFragment">
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <ScrollView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnUpdate">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/imgProductUpdate"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:layout_margin="20dp"
-                android:src="@drawable/ic_add_product"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:src="@drawable/ic_add_product"/>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnAddProductImgUpdate"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@id/imgProductUpdate"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
                 android:layout_margin="10dp"
-                android:text="@string/button_add_img"/>
+                android:text="@string/button_add_img"
+                android:background="@drawable/background_button"
+                android:textColor="@color/white"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtInputProductNameUpdate"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/product_name"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/btnAddProductImgUpdate"
-                >
+                android:hint="@string/product_name">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtProductNameUpdate"
@@ -57,13 +54,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtInputProductExplanationUpdate"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/product_explanation"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtInputProductNameUpdate">
+                android:hint="@string/product_explanation">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtProductExplanationUpdate"
@@ -76,13 +70,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtInputProductCategoryUpdate"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/product_category"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtInputProductExplanationUpdate">
+                android:hint="@string/product_category">
 
                 <AutoCompleteTextView
                     android:id="@+id/autoCompleteCategoryUpdate"
@@ -95,13 +86,10 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txtInputProductPriceUpdate"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:hint="@string/product_price"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtInputProductCategoryUpdate">
+                android:hint="@string/product_price">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/txtProductPriceUpdate"
@@ -111,18 +99,19 @@
                     android:inputType="number"/>
 
             </com.google.android.material.textfield.TextInputLayout>
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </ScrollView>
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnUpdate"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="@string/button_update"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/txtInputProductPriceUpdate" />
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.core.widget.NestedScrollView>
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnUpdate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/button_update"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:background="@drawable/background_button"
+        android:textColor="@color/white" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

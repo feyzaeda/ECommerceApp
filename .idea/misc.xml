@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/tfeyz/AndroidStudioProjects/ECommerceApp/app/src/main/res/drawable/background_button.xml" value="0.2703125" />
         <entry key="..\:/Users/tfeyz/AndroidStudioProjects/ECommerceApp/app/src/main/res/drawable/item_background.xml" value="0.1125" />
         <entry key="..\:/Users/tfeyz/AndroidStudioProjects/ECommerceApp/app/src/main/res/layout/activity_main.xml" value="0.25416666666666665" />
         <entry key="..\:/Users/tfeyz/AndroidStudioProjects/ECommerceApp/app/src/main/res/layout/dropdown_category_item.xml" value="0.25416666666666665" />
