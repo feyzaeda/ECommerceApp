@@ -57,7 +57,7 @@ class ProductFragment : Fragment(), ProductAdapter.OnItemClickListener {
     }
 
     private fun getProducts(){
-        database.child(productCategory!!).addValueEventListener(object : ValueEventListener {
+        database.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     productList.clear()
